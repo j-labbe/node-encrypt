@@ -1,5 +1,5 @@
 {
-  "name": "node-encypt",
+  "name": "node-encrypt",
   "version": "1.0.0",
   "description": "Node.js program to encrypt data and encode the encryption as a JSONWebToken.",
   "main": "index.js",
