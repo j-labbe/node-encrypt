@@ -1,0 +1,16 @@
+{
+  "name": "node-encypt",
+  "version": "1.0.0",
+  "description": "Node.js program to encrypt data and encode the encryption as a JSONWebToken.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Jack Labbe <mail@jacklabbe.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
+}
