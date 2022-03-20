@@ -59,20 +59,45 @@ const readLine = require("readline").createInterface({ input: process.stdin, out
 
 console.log(`${pkg.name} - v${pkg.version} - Author: ${pkg.author}\n`);
 
-readLine.question("Enter a JWT secret.\n> ", (secret) => {
-    jwtSecret = secret;
-    readLine.question("Enter a password secret (32 bytes - 32 chars).\n> ", (secret) => {
-        if (secret.length !== 32) {
-            console.log("Password secret must be 32 characters (32 bytes)!");
-            return readLine.close();
-        }
-        passSecret = secret;
-        readLine.question("Enter a password you would like to be encrypted.\n> ", async (data) => {
-            const jwt = await EncryptionTools.encryptPassword(data);
-            console.log(`\nYour JSONWebToken is: ${jwt}`);
-            readLine.close();
+readLine.question("Mode (enc / dec)\n> ", (mode) => {
+    if (mode === "enc") {
+        readLine.question("Enter a JWT secret.\n> ", (secret) => {
+            jwtSecret = secret;
+            readLine.question("Enter a password secret (32 bytes - 32 chars).\n> ", (secret) => {
+                if (secret.length !== 32) {
+                    console.log("Password secret must be 32 characters (32 bytes)!");
+                    return readLine.close();
+                }
+                passSecret = secret;
+                readLine.question("Enter a password you would like to be encrypted.\n> ", async (data) => {
+                    const jwt = await EncryptionTools.encryptPassword(data);
+                    console.log(`\nYour JSONWebToken is: ${jwt}`);
+                    readLine.close();
+                });
+            });
         });
-    });
-});
+    } else if (mode === "dec") {
+        readLine.question("Enter a JWT secret.\n> ", (secret) => {
+            jwtSecret = secret;
+            readLine.question("Enter a password secret.\n> ", (secret) => {
+                if (secret.length !== 32) {
+                    console.log("Password secret must be 32 characters (32 bytes)!");
+                    return readLine.close();
+                }
+                passSecret = secret;
+                readLine.question("Enter the JWT that contains encrypted password object.\n> ", async (data) => {
+                    const jwt = await EncryptionTools.decryptPassword(data);
+                    console.log(`\nYour decrypted password is: ${jwt}`);
+                    readLine.close();
+                });
+            });
+        });
+    } else {
+        console.log("Invalid mode (must be enc / dec)");
+        process.exit(1);
+    }
+})
+
+
 
 readLine.on('close', () => console.log("\n Done!"));
